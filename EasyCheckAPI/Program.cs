@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Text;
+using System.Linq;
 using Nancy;
 using Nancy.Hosting.Self;
+using mCopernicus.EasyChecker;
 
 namespace EasyCheckAPI
 {
@@ -32,7 +34,13 @@ namespace EasyCheckAPI
                 x => Response.AsText("{\"owner\": \"Milkey\",\"message\": \"Hello,World!\"}", "application/json"));
 
             Get("/{host}/{port}",
-                x => "");
+                x =>
+                {
+                    List<int> list = MPing.Tcping(x.host.ToString(), Convert.ToInt32(x.port.ToString()));
+                    return Response.AsText(
+                        $"{{\"status\": {(list.Max() != 0).ToString().ToLower()},\"time\": {list.Average()}}}",
+                        "application/json");
+                });
         }
     }
 }

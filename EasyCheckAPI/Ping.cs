@@ -16,7 +16,7 @@ namespace mCopernicus.EasyChecker
             for (int i = 0; i < 2; i++)
             {
                 Socket socks = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
-                    {Blocking = true, ReceiveTimeout = 6000, SendTimeout = 6000};
+                    {Blocking = true, ReceiveTimeout = 1000, SendTimeout = 1000};
 
                 IPEndPoint point;
                 try
