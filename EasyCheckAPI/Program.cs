@@ -28,9 +28,11 @@ namespace EasyCheckAPI
     {
         public HomeModule()
         {
-            Get("/", x => {
-                return "hello";
-            });
+            Get("/",
+                x => Response.AsText("{\"owner\": \"Milkey\",\"message\": \"Hello,World!\"}", "application/json"));
+
+            Get("/{host}/{port}",
+                x => "");
         }
     }
 }
