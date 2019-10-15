@@ -49,6 +49,23 @@ namespace EasyCheckAPI
                         throw;
                     }
                 });
+
+            Get("/{host}",
+                x =>
+                {
+                    try
+                    {
+                        List<int> list = MPing.Ping(x.host.ToString());
+                        return Response.AsText(
+                            $"{{\"status\": {(list.Max() != 0).ToString().ToLower()},\"time\": {list.Average()}}}",
+                            "application/json");
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
+                });
         }
     }
 }
