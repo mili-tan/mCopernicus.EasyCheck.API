@@ -36,10 +36,18 @@ namespace EasyCheckAPI
             Get("/{host}/{port}",
                 x =>
                 {
-                    List<int> list = MPing.Tcping(x.host.ToString(), Convert.ToInt32(x.port.ToString()));
-                    return Response.AsText(
-                        $"{{\"status\": {(list.Max() != 0).ToString().ToLower()},\"time\": {list.Average()}}}",
-                        "application/json");
+                    try
+                    {
+                        List<int> list = MPing.Tcping(x.host.ToString(), Convert.ToInt32(x.port.ToString()));
+                        return Response.AsText(
+                            $"{{\"status\": {(list.Max() != 0).ToString().ToLower()},\"time\": {list.Average()}}}",
+                            "application/json");
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
                 });
         }
     }
