@@ -31,18 +31,21 @@ namespace mCopernicus.EasyChecker
                 stopWatch.Start();
                 try
                 {
-                    socks.Connect(point);
+                    var result = socks.BeginConnect(point, null, null);
+                    if (!result.AsyncWaitHandle.WaitOne(2500, true)) continue;
                 }
                 catch
                 {
                     //times.Add(0);
                 }
+
                 stopWatch.Stop();
                 times.Add(Convert.ToInt32(stopWatch.Elapsed.TotalMilliseconds));
                 socks.Close();
                 Thread.Sleep(50);
             }
 
+            if (times.Count == 0) times.Add(0);
             return times;
         }
 
