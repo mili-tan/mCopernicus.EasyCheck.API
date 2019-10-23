@@ -41,16 +41,15 @@ namespace EasyCheckAPI
                     {
                         List<int> list = MPing.Tcping(x.host.ToString(), Convert.ToInt32(x.port.ToString()));
                         return Response.AsText(
-                            "{ " +
+                            "{" +
                             $"\"status\": {(list.Max() != 0).ToString().ToLower()}," +
                             $"\"time\": {(list.Average() == 0 ? "null" : list.Average().ToString(CultureInfo.InvariantCulture))}" +
-                            "}",
-                            "application/json");
+                            "}", "application/json");
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine(e);
-                        throw;
+                        return e;
                     }
                 });
 
@@ -61,16 +60,15 @@ namespace EasyCheckAPI
                     {
                         List<int> list = MPing.Ping(x.host.ToString());
                         return Response.AsText(
-                            "{ " +
+                            "{" +
                             $"\"status\": {(list.Max() != 0).ToString().ToLower()}," +
                             $"\"time\": {(list.Average() == 0 ? "null" : list.Average().ToString(CultureInfo.InvariantCulture))}" +
-                            "}",
-                            "application/json");
+                            "}", "application/json");
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine(e);
-                        throw;
+                        return e;
                     }
                 });
         }
