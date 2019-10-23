@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq;
 using Nancy;
 using Nancy.Hosting.Self;
@@ -40,7 +41,10 @@ namespace EasyCheckAPI
                     {
                         List<int> list = MPing.Tcping(x.host.ToString(), Convert.ToInt32(x.port.ToString()));
                         return Response.AsText(
-                            $"{{\"status\": {(list.Max() != 0).ToString().ToLower()},\"time\": {list.Average()}}}",
+                            "{ " +
+                            $"\"status\": {(list.Max() != 0).ToString().ToLower()}," +
+                            $"\"time\": {(list.Average() == 0 ? "null" : list.Average().ToString(CultureInfo.InvariantCulture))}" +
+                            "}",
                             "application/json");
                     }
                     catch (Exception e)
@@ -57,7 +61,10 @@ namespace EasyCheckAPI
                     {
                         List<int> list = MPing.Ping(x.host.ToString());
                         return Response.AsText(
-                            $"{{\"status\": {(list.Max() != 0).ToString().ToLower()},\"time\": {list.Average()}}}",
+                            "{ " +
+                            $"\"status\": {(list.Max() != 0).ToString().ToLower()}," +
+                            $"\"time\": {(list.Average() == 0 ? "null" : list.Average().ToString(CultureInfo.InvariantCulture))}" +
+                            "}",
                             "application/json");
                     }
                     catch (Exception e)

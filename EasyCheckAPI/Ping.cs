@@ -32,7 +32,7 @@ namespace mCopernicus.EasyChecker
                 try
                 {
                     var result = socks.BeginConnect(point, null, null);
-                    if (!result.AsyncWaitHandle.WaitOne(2500, true)) continue;
+                    if (!result.AsyncWaitHandle.WaitOne(2000, true)) continue;
                 }
                 catch
                 {
